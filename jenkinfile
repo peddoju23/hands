@@ -1,107 +1,28 @@
-
-
 pipeline
-{
-
-agent
-
-stages
-          {
-
-stage('continous download')
-
+ {
+ agent any
+ stages
+   {
+  stage('continous download')
+    {
+    steps
       {
-
-        steps
-        {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/yankils/hello-world.git']]])        }
-     }
-     stage('continous build')
-
+       checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/yankils/hello-world.git']]])        }
+      }
+     } 
+   stage('continous build')
+     {
+     steps
        {
-
-        steps
-        {
         sh 'mvn package'
         }
-
-        }
-stage('continous deployment')
-
+      }
+   stage('continous deployment')
       {
-
-        steps
+      steps
 	{
 	sh 'scp /var/lib/jenkins/workspace/hanspipe/webapp/target/webapp.war /var/lib/tomcat8/webapps/qaenv.war'
 	}
-
       }
-
-    }
+  }
     
-    post
-    {
-    sucess
-    {
-    sh 'scp /var/lib/jenkins/workspace/hanspipe/webapp/target/webapp.war /var/lib/tomcat8/webapps/qaenv.war'
-    }
-    failure
-    {
-    emailext body: 'error', subject: 'error', to: 'peddoju.sandeep123@gmail.com'    }
-    }
-    }
-
-
-
-  }  
-
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-jenkinfile [unix] (05:29 01/01/1970)                                                                                                                                                     0,1 All
--- INSERT --
-
